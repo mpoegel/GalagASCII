@@ -17,7 +17,8 @@ public:
 	 
 	static void resetColor();
 	void clearArea();
-	void clearFull();
+	static void clearFull();
+    static void fullCleanup();
 	bool updateAll(const graphic& g);
 	bool updateOne(const pair<unsigned int, unsigned int>& loc, const string& color, const char c);
 

@@ -69,3 +69,11 @@ void Screen::setCursorVisible(bool visible) {
     }
     cout.flush();
 }
+
+void Screen::fullCleanup() {
+    cout << endl;
+    Screen::resetColor();
+    Screen::setCursorVisible(true);
+    (void)system("stty sane");
+    Screen::clearFull();
+}

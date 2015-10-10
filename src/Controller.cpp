@@ -39,6 +39,13 @@ void Controller::run() {
                 p_itr = projectiles_.erase(p_itr)--;
             }
         }
+
+        if(enemies_.empty()) {
+            Screen::fullCleanup();
+            puts("You win!");
+            exit(0);
+        }
+
         // loop over enemies for moves
         for (list<Enemy>::iterator e_itr = enemies_.begin(); e_itr != enemies_.end(); e_itr++) {
             screen_.updateOne(e_itr->getLocation(), "red", ' ');
