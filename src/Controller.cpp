@@ -14,6 +14,7 @@ Controller::Controller() {
             enemies_.push_back(enemy);
         }
     }
+    screen_.setCursorVisible(false);
     screen_.clearFull();
 
     // draw initial position of player

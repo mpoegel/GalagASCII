@@ -15,11 +15,13 @@ public:
 	Screen(unsigned int h, unsigned int w): height(h), width(w) {}
 	Screen(): height(10), width(300) {}
 	 
-	void resetColor();
+	static void resetColor();
 	void clearArea();
 	void clearFull();
 	bool updateAll(const graphic& g);
 	bool updateOne(const pair<unsigned int, unsigned int>& loc, const string& color, const char c);
+
+    static void setCursorVisible(bool visible);
 	
 	unsigned int width;
 	unsigned int height;

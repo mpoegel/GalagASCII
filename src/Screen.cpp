@@ -57,5 +57,15 @@ void Screen::clearArea() {
 }
 
 void Screen::clearFull() {
-    cout << ESCAPE "2J" << endl;
+    cout << ESCAPE "2J";
+    cout.flush();
+}
+
+void Screen::setCursorVisible(bool visible) {
+    if(visible) {
+        cout << ESCAPE "?25h";
+    } else {
+        cout << ESCAPE "?25l";
+    }
+    cout.flush();
 }

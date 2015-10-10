@@ -4,13 +4,21 @@
 #include <chrono>
 #include <thread>
 #include <map>
-
+#include <signal.h>
 #include "Controller.h"
 
 using namespace std;
 
+void handle_control_c(int s) {
+    cout << endl;
+    Screen::resetColor();
+    Screen::setCursorVisible(true);
+    system("stty sane");
+    exit(0);
+}
+
 int main() {
-    
+    signal(SIGINT, &handle_control_c);
     Controller c;
     c.run();
     c.endThreads();
