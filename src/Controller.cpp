@@ -5,7 +5,7 @@ Controller::Controller() {
     enemies_ = list<Enemy>();
     projectiles_ = list<Projectile>();
     player_ = Player("name", make_pair(50, 40));
-    
+
     // initial enemies
     for (unsigned int x=0; x<10; x++) {
         for (unsigned int y=0; y<3; y++) {
@@ -19,7 +19,7 @@ Controller::Controller() {
 
     // draw initial position of player
     screen_.updateOne(player_.getLocation(), "green", '^');
-    
+
     p_thread_ = thread(&Controller::runPlayer, ref(*this));
 }
 
@@ -27,22 +27,39 @@ void Controller::run() {
     unsigned int i=0;
     while (true) {
         // if (i > 20) break;
+        // loop over projectiles
+        for (list<Projectile>::iterator p_itr = projectiles_.begin(); p_itr != projectiles_.end(); p_itr++) {
+            screen_.updateOne(p_itr->getLocation(), "white", ' ');
+            p_itr->move();
+            location loc = p_itr->getLocation();
+            if (loc.second > 0 && loc.second < screen_.height + 1) {
+                screen_.updateOne(p_itr->getLocation(), "white", '*');
+            }
+            else {
+                p_itr = projectiles_.erase(p_itr)--;
+            }
+        }
         // loop over enemies for moves
         for (list<Enemy>::iterator e_itr = enemies_.begin(); e_itr != enemies_.end(); e_itr++) {
             screen_.updateOne(e_itr->getLocation(), "red", ' ');
             e_itr->move();
-            screen_.updateOne(e_itr->getLocation(), "red", e_itr->getType());            
-        }
-        // loop over projectiles 
-        for (list<Projectile>::iterator p_itr = projectiles_.begin(); p_itr != projectiles_.end(); p_itr++) {
-            screen_.updateOne(p_itr->getLocation(), "white", ' ');            
-            p_itr->move();
-            location loc = p_itr->getLocation();
-            if (loc.second > 0 && loc.second < screen_.height + 1) {
-                screen_.updateOne(p_itr->getLocation(), "white", '*');            
+            bool hit = false;
+            location e_location = e_itr->getLocation();
+            list<Projectile>::iterator p_itr = projectiles_.begin();
+            while(!hit && p_itr != projectiles_.end()){
+                location p_location = p_itr->getLocation();
+                if(p_location.first == e_location.first && p_location.second == e_location.second){
+                    hit = true;
+                    screen_.updateOne(p_location, "white", ' ');
+                    projectiles_.erase(p_itr);
+                    e_itr = enemies_.erase(e_itr)--;
+                }
+                else{
+                    p_itr++;
+                }
             }
-            else {
-                p_itr = projectiles_.erase(p_itr)--;
+            if(!hit){
+                screen_.updateOne(e_location, "red", e_itr->getType());
             }
         }
         if (player_.pendingMove()) {
@@ -58,8 +75,9 @@ void Controller::run() {
             }
         }
         cout.flush();
-        this_thread::sleep_for(chrono::milliseconds(200));
+        this_thread::sleep_for(chrono::milliseconds(500));
         i++;
+
     }
     player_.endPlayer();
 }
