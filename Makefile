@@ -4,7 +4,6 @@ CC = g++
 DEBUG = -g
 CFLAGS = -c $(DEBUG)
 NAME = GalagASCII
-CPPFILES = src/Enemy.cpp src/Player.cpp src/Projectile.cpp src/Controller.cpp src/Screen.cpp src/Main.cpp
 BIN_DIR = bin/
 
 $(BIN_DIR)$(NAME): $(addprefix $(BIN_DIR), $(OBJS))
@@ -13,7 +12,7 @@ $(BIN_DIR)$(NAME): $(addprefix $(BIN_DIR), $(OBJS))
 $(BIN_DIR) :
 	mkdir $@
 
-bin/main.o : src/main.cpp | $(BIN_DIR)
+bin/main.o : src/Main.cpp | $(BIN_DIR)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $< -o $@ -Isrc/
 
 bin/Controller.o : $(addprefix src/, Controller.cpp Controller.h Projectile.h Enemy.h Player.h Screen.h) | $(BIN_DIR)
