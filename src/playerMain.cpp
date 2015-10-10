@@ -23,7 +23,7 @@ void hasPlayed(Player &p){
 }
 
 int main(int argc, char* argv[]) {
-  Player player("name");
+  Player player("name", make_pair(1,1));
   int numThreads = 2;
   thread t1(runPlayer, ref(player));
   thread t2(hasPlayed, ref(player));

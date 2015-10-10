@@ -10,7 +10,7 @@ using namespace std;
 
 class Player{
   public:
-     Player(const string &input);
+     Player(const string &input, const pair<int,int> startLoc);
      string getName() const;
      pair<int,int> getLocation() const;
      bool pendingMove() const;

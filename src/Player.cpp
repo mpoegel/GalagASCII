@@ -5,8 +5,9 @@
 #include <termios.h>
 using namespace std;
 
-Player :: Player(const string &input){
+Player :: Player(const string &input, const pair<int,int> startLoc){
   name = input;
+  location =  startLoc;
   madeMove = false;
 }
 
