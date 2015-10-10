@@ -47,3 +47,11 @@ bool Screen::updateOne(const pair<unsigned int, unsigned int>& loc, const string
 	resetColor();
 	return true;
 }
+
+void Screen::clear() {
+    for(int y=0; y<height; y++) {
+        for(int x=0;x<width; x++) {
+            updateOne(make_pair(x,y), "", ' ');
+        }
+    }
+}

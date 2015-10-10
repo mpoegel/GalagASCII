@@ -14,6 +14,8 @@ Controller::Controller() {
             enemies_.push_back(enemy);
         }
     }
+    screen_.clear();
+
     // draw initial position of player
     screen_.updateOne(player_.getLocation(), "green", '^');
     
