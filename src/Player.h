@@ -13,10 +13,9 @@ class Player{
      Player(const string &input);
      string getName() const;
      pair<int,int> getLocation() const;
-     unsigned char getInput() const;
-     bool moveMade() const;
+     bool pendingMove() const;
 
-     void takeMove();
+     char takeMove();
      void runPlayer();
      void setLocation(pair<int,int> &loc);
 
@@ -27,6 +26,5 @@ class Player{
     bool madeMove;
 
 };
-
 
 #endif

@@ -15,7 +15,7 @@ void runPlayer(Player &p){
 
 void hasPlayed(Player &p){
   while(true){
-    if(p.moveMade()){
+    if(p.pendingMove()){
       cout << "Move Made" << endl;
       return;
     }

@@ -18,16 +18,21 @@ pair<int,int> Player :: getLocation() const{
   return location;
 }
 
-unsigned char Player :: getInput() const{
-  return input;
-}
-
-bool Player :: moveMade() const{
+bool Player :: pendingMove() const{
   return madeMove;
 }
 
-void Player :: takeMove(){
+ char Player :: takeMove(){
   madeMove = false;
+  if((char)input == 'a'){
+    if(location.first > 0){
+      location.first -= 1;
+    }
+  }
+  if((char)input == 'd'){
+    location.first += 1;
+  }
+  return (char)input;
 }
 
 void Player :: setLocation(pair<int,int> &loc){
