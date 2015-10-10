@@ -21,9 +21,9 @@ public:
 	bool updateAll(const graphic& g);
 	bool updateOne(const pair<unsigned int, unsigned int>& loc, const string& color, const char c);
 	
-private:
 	unsigned int width;
 	unsigned int height;
+private:
 	static color_map COLORS;
 	
 	unsigned int getColorCode(const string& color) const;
