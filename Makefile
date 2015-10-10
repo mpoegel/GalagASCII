@@ -1,34 +1,19 @@
-OBJS = main.o Controller.o Screen.o Projectile.o Enemy.o Player.o
-CPPFLAGS = -std=c++11 -O2 -pthread
+OBJS = Main.o Controller.o Screen.o Projectile.o Enemy.o Player.o
+FLAGS = -std=c++11 -O2 -pthread $(DEBUG) 
+LINK_ONLY = -c
 CC = g++
 DEBUG = -g
-CFLAGS = -c $(DEBUG)
 NAME = GalagASCII
 BIN_DIR = bin/
 
 $(BIN_DIR)$(NAME): $(addprefix $(BIN_DIR), $(OBJS))
-	g++ $(LFLAGS) $(CPPFLAGS) -o $@ $^
+	g++ $(FLAGS) -o $@ $^
 
 $(BIN_DIR) :
 	mkdir $@
 
-bin/main.o : src/Main.cpp | $(BIN_DIR)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $< -o $@ -Isrc/
-
-bin/Controller.o : $(addprefix src/, Controller.cpp Controller.h Projectile.h Enemy.h Player.h Screen.h) | $(BIN_DIR)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $< -o $@ -Isrc/
-	
-bin/Projectile.o : $(addprefix src/, Projectile.cpp Projectile.h) | $(BIN_DIR)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $< -o $@ -Isrc/
-	
-bin/Enemy.o  : $(addprefix src/, Enemy.cpp Enemy.h) | $(BIN_DIR)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $< -o $@ -Isrc/
-	
-bin/Player.o : $(addprefix src/, Player.cpp Player.h) | $(BIN_DIR)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $< -o $@ -Isrc/
-
-bin/Screen.o : $(addprefix src/, Screen.cpp Screen.h) | $(BIN_DIR)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $< -o $@ -Isrc/
+$(BIN_DIR)%.o: src/%.cpp | $(BIN_DIR)
+	$(CC) $(LINK_ONLY) $(FLAGS) $< -o $@ -I src/
 
 clean:
 	rm -rf bin
