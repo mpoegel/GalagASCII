@@ -14,22 +14,22 @@ using namespace std;
 
 class Controller {
 public:
-	typedef pair<unsigned int, unsigned int> location;
-	
-	Controller();
-	void run();
-	
-	void endThreads();
+    typedef pair<unsigned int, unsigned int> location;
+    
+    Controller();
+    void run();
+    
+    void endThreads();
 
 private:
-	// REPRESENTATION
-	Screen screen_;
-	Player player_;
-	thread p_thread_;
-	list<Enemy> enemies_;
-	list<Projectile> projectiles_;
-	
-	// HELPERS
-	static void runPlayer(Controller& c);
-	static void watchPlayer(Controller& c);
+    // REPRESENTATION
+    Screen screen_;
+    Player player_;
+    thread p_thread_;
+    list<Enemy> enemies_;
+    list<Projectile> projectiles_;
+    
+    // HELPERS
+    static void runPlayer(Controller& c);
+    static void watchPlayer(Controller& c);
 };
