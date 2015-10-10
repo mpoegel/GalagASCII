@@ -1,6 +1,6 @@
 #include <cstdio>
 #include <iostream>
-#include "screen.h"
+#include "Screen.h"
 
 using namespace std;
 

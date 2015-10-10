@@ -5,7 +5,7 @@
 #include <thread>
 #include <map>
 
-#include "controller.h"
+#include "Controller.h"
 
 using namespace std;
 

@@ -5,10 +5,10 @@
 #include <chrono>
 #include <thread>
 #include <functional>
-#include "enemy.h"
-#include "projectile.h"
-#include "player.h"
-#include "screen.h"
+#include "Enemy.h"
+#include "Projectile.h"
+#include "Player.h"
+#include "Screen.h"
 
 using namespace std;
 

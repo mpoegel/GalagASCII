@@ -1,4 +1,4 @@
-#include "controller.h"
+#include "Controller.h"
 
 Controller::Controller() {
 	screen_ = Screen(10, 300);
