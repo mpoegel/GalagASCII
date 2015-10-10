@@ -26,7 +26,6 @@ private:
 	Screen screen_;
 	Player player_;
 	thread p_thread_;
-	thread wp_thread_;
 	list<Enemy> enemies_;
 	list<Projectile> projectiles_;
 	

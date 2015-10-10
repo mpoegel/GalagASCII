@@ -16,14 +16,13 @@ pair<int,int> Enemy :: getLocation() const{
 pair<int,int> Enemy :: move(){
   if(movesMade < 2){
     location.first = location.first-1;
-    return location;
   }
   else{
     location.first = location.first+1;
-    return location;
   }
   movesMade++;
   if(movesMade == 4){
     movesMade = 0;
   }
+  return location;
 }

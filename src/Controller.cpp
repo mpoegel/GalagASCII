@@ -4,7 +4,7 @@ Controller::Controller() {
 	screen_ = Screen(10, 300);
 	enemies_ = list<Enemy>();
 	projectiles_ = list<Projectile>();
-	player_ = Player("name", make_pair(9, 150));
+	player_ = Player("name", make_pair(150, 9));
 	
 	// initial enemies
 	for (unsigned int x=0; x<10; x++) {
@@ -18,16 +18,15 @@ Controller::Controller() {
 	screen_.updateOne(player_.getLocation(), "green", '^');
 	
 	p_thread_ = thread(&Controller::runPlayer, ref(*this));
-	wp_thread_ = thread(&Controller::watchPlayer, ref(*this));
 }
 
 void Controller::run() {
 	unsigned int i=0;
 	while (true) {
-		if (i > 20) break;
+		// if (i > 20) break;
 		// loop over enemies for moves
 		for (list<Enemy>::iterator e_itr = enemies_.begin(); e_itr != enemies_.end(); e_itr++) {
-			screen_.updateOne(e_itr->getLocation(), "red", e_itr->getType());
+			screen_.updateOne(e_itr->getLocation(), "red", ' ');
 			e_itr->move();
 			screen_.updateOne(e_itr->getLocation(), "red", e_itr->getType());			
 		}
@@ -41,6 +40,17 @@ void Controller::run() {
 			}
 			else {
 				p_itr = projectiles_.erase(p_itr)--;
+			}
+		}
+		if (player_.pendingMove()) {
+			location loc = player_.getLocation();
+			char move = player_.takeMove();
+			if (move == 'w') {
+				projectiles_.push_back( Projectile(true, player_.getLocation()) );
+			}
+			else {
+				screen_.updateOne(loc, "green", ' ');
+				screen_.updateOne(player_.getLocation(), "green", '^');
 			}
 		}
 		cout.flush();
@@ -73,5 +83,4 @@ void Controller::runPlayer(Controller& c) {
 
 void Controller::endThreads() {
 	p_thread_.join();
-	wp_thread_.join();
 }
