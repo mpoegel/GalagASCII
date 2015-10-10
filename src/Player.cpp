@@ -9,6 +9,7 @@ Player :: Player(const string &input, const pair<int,int> startLoc){
   name = input;
   location =  startLoc;
   madeMove = false;
+  end = false;
 }
 
 string Player :: getName() const{
@@ -56,11 +57,14 @@ void Player :: runPlayer(){
   /* set the new settings immediately */
   tcsetattr(STDIN_FILENO,TCSANOW,&new_tio);
 
-  for(int i = 0; i < 10; i++){
+  while (! end) {
     input=getchar();
     madeMove = true;
-    cout << input << endl;
   }
   /* restore the former settings */
   tcsetattr(STDIN_FILENO,TCSANOW,&old_tio);
+}
+
+void Player :: endPlayer() {
+  end = true;
 }
