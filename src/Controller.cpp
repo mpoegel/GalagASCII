@@ -4,7 +4,7 @@ Controller::Controller() {
     screen_ = Screen(10, 300);
     enemies_ = list<Enemy>();
     projectiles_ = list<Projectile>();
-    player_ = Player("name", make_pair(150, 9));
+    player_ = Player("name", make_pair(70, 9));
     
     // initial enemies
     for (unsigned int x=0; x<10; x++) {
@@ -48,7 +48,8 @@ void Controller::run() {
             location loc = player_.getLocation();
             char move = player_.takeMove();
             if (move == 'w') {
-                projectiles_.push_back( Projectile(true, player_.getLocation()) );
+                loc.second--;
+                projectiles_.push_back( Projectile(false, loc) );
             }
             else {
                 screen_.updateOne(loc, "green", ' ');
@@ -56,7 +57,7 @@ void Controller::run() {
             }
         }
         cout.flush();
-        this_thread::sleep_for(chrono::milliseconds(500));
+        this_thread::sleep_for(chrono::milliseconds(200));
         i++;
     }
     player_.endPlayer();
