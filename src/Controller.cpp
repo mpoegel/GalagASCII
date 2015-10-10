@@ -32,7 +32,7 @@ void Controller::run() {
             screen_.updateOne(p_itr->getLocation(), "white", ' ');
             p_itr->move();
             location loc = p_itr->getLocation();
-            if (loc.second > 0 && loc.second < screen_.height + 1) {
+            if (loc.second >= 0 && loc.second < screen_.height + 1) {
                 screen_.updateOne(p_itr->getLocation(), "white", '*');
             }
             else {
@@ -75,7 +75,7 @@ void Controller::run() {
             }
         }
         cout.flush();
-        this_thread::sleep_for(chrono::milliseconds(500));
+        this_thread::sleep_for(chrono::milliseconds(100));
         i++;
 
     }
