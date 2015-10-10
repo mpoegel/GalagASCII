@@ -19,7 +19,7 @@ void Enemy :: move() {
         ticksTillNextMove--;
     } else {
         if (inAttack) {
-          attack();
+            attack();
         }
         else {
             if (rand() % 100 == 10) {
@@ -41,11 +41,11 @@ void Enemy :: move() {
 }
 
 void Enemy :: setLocation(pair<int, int> loc) {
-  location = loc;
+    location = loc;
 }
 
 void Enemy :: attack() {
-  location.second++;
+    location.second++;
 }
 
 void Enemy :: stopAttack() {

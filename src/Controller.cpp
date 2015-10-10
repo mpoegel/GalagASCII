@@ -6,11 +6,12 @@ Controller::Controller() {
     projectiles_ = list<Projectile>();
     player_ = Player("name", make_pair(50, 20));
 
+    string buffer;
     // initial enemies
     for (unsigned int x=0; x<10; x++) {
-        for (unsigned int y=0; y<3; y++) {
+        for (unsigned int y=1; y<4; y++) {
             Enemy enemy('A', make_pair(x*2 + 50, y));
-            screen_.updateOne(enemy.getLocation(), "red", enemy.getType());
+            screen_.updateOne(buffer, enemy.getLocation(), "red", enemy.getType());
             enemies_.push_back(enemy);
         }
     }
@@ -18,7 +19,9 @@ Controller::Controller() {
     screen_.clearFull();
 
     // draw initial position of player
-    screen_.updateOne(player_.getLocation(), "green", '^');
+    screen_.updateOne(buffer, player_.getLocation(), "green", '^');
+    cout << buffer;
+    cout.flush();
 
     p_thread_ = thread(&Controller::runPlayer, ref(*this));
 }
@@ -28,12 +31,13 @@ void Controller::run() {
     while (true) {
         // if (i > 20) break;
         // loop over projectiles
+        string buffer;
         for (list<Projectile>::iterator p_itr = projectiles_.begin(); p_itr != projectiles_.end(); p_itr++) {
-            screen_.updateOne(p_itr->getLocation(), "white", ' ');
+            screen_.updateOne(buffer, p_itr->getLocation(), "white", ' ');
             p_itr->move();
             location loc = p_itr->getLocation();
             if (loc.second >= 0 && loc.second < screen_.height + 1) {
-                screen_.updateOne(p_itr->getLocation(), "white", '*');
+                screen_.updateOne(buffer, p_itr->getLocation(), "white", '*');
             }
             else {
                 p_itr = projectiles_.erase(p_itr)--;
@@ -48,7 +52,7 @@ void Controller::run() {
 
         // loop over enemies for moves
         for (list<Enemy>::iterator e_itr = enemies_.begin(); e_itr != enemies_.end(); e_itr++) {
-            screen_.updateOne(e_itr->getLocation(), "red", ' ');
+            screen_.updateOne(buffer, e_itr->getLocation(), "red", ' ');
             e_itr->move();
             bool hit = false;
             location e_location = e_itr->getLocation();
@@ -57,20 +61,20 @@ void Controller::run() {
                 e_location = e_itr->getLocation();
             }
             list<Projectile>::iterator p_itr = projectiles_.begin();
-            while(!hit && p_itr != projectiles_.end()){
+            while(!hit && p_itr != projectiles_.end()) {
                 location p_location = p_itr->getLocation();
-                if(p_location.first == e_location.first && p_location.second == e_location.second){
+                if(p_location.first == e_location.first && p_location.second == e_location.second) {
                     hit = true;
-                    screen_.updateOne(p_location, "white", ' ');
+                    screen_.updateOne(buffer, p_location, "white", ' ');
                     projectiles_.erase(p_itr);
                     e_itr = enemies_.erase(e_itr)--;
                 }
-                else{
+                else {
                     p_itr++;
                 }
             }
-            if(!hit){
-                screen_.updateOne(e_location, "red", e_itr->getType());
+            if(!hit) {
+                screen_.updateOne(buffer, e_location, "red", e_itr->getType());
             }
         }
         if (player_.pendingMove()) {
@@ -81,10 +85,11 @@ void Controller::run() {
                 projectiles_.push_back( Projectile(false, loc) );
             }
             else {
-                screen_.updateOne(loc, "green", ' ');
-                screen_.updateOne(player_.getLocation(), "green", '^');
+                screen_.updateOne(buffer, loc, "green", ' ');
+                screen_.updateOne(buffer, player_.getLocation(), "green", '^');
             }
         }
+        cout << buffer;
         cout.flush();
         this_thread::sleep_for(chrono::milliseconds(100));
         i++;
@@ -103,8 +108,11 @@ void Controller::watchPlayer(Controller& c) {
                 c.projectiles_.push_back( Projectile(true, c.player_.getLocation()) );
             }
             else {
-                c.screen_.updateOne(loc, "green", ' ');
-                c.screen_.updateOne(c.player_.getLocation(), "green", '^');
+                string buffer;
+                c.screen_.updateOne(buffer, loc, "green", ' ');
+                c.screen_.updateOne(buffer, c.player_.getLocation(), "green", '^');
+                cout << buffer;
+                cout.flush();
             }
         }
       }
