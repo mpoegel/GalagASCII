@@ -1,10 +1,10 @@
 #include "Controller.h"
 
 Controller::Controller() {
-    screen_ = Screen(10, 300);
+    screen_ = Screen(10, 200);
     enemies_ = list<Enemy>();
     projectiles_ = list<Projectile>();
-    player_ = Player("name", make_pair(70, 9));
+    player_ = Player("name", make_pair(50, 9));
     
     // initial enemies
     for (unsigned int x=0; x<10; x++) {
@@ -14,7 +14,7 @@ Controller::Controller() {
             enemies_.push_back(enemy);
         }
     }
-    screen_.clear();
+    screen_.clearFull();
 
     // draw initial position of player
     screen_.updateOne(player_.getLocation(), "green", '^');

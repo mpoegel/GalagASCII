@@ -16,7 +16,8 @@ public:
 	Screen(): height(10), width(300) {}
 	 
 	void resetColor();
-	void clear();
+	void clearArea();
+	void clearFull();
 	bool updateAll(const graphic& g);
 	bool updateOne(const pair<unsigned int, unsigned int>& loc, const string& color, const char c);
 	
