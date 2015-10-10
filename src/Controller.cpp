@@ -1,10 +1,10 @@
 #include "Controller.h"
 
 Controller::Controller() {
-    screen_ = Screen(40, 200);
+    screen_ = Screen(20, 200);
     enemies_ = list<Enemy>();
     projectiles_ = list<Projectile>();
-    player_ = Player("name", make_pair(50, 40));
+    player_ = Player("name", make_pair(50, 20));
 
     // initial enemies
     for (unsigned int x=0; x<10; x++) {
@@ -52,6 +52,10 @@ void Controller::run() {
             e_itr->move();
             bool hit = false;
             location e_location = e_itr->getLocation();
+            if (e_location.second > screen_.height) {
+                e_itr->stopAttack();
+                e_location = e_itr->getLocation();
+            }
             list<Projectile>::iterator p_itr = projectiles_.begin();
             while(!hit && p_itr != projectiles_.end()){
                 location p_location = p_itr->getLocation();
