@@ -33,15 +33,24 @@ void Controller::run() {
         // loop over projectiles
         string buffer;
         for (list<Projectile>::iterator p_itr = projectiles_.begin(); p_itr != projectiles_.end(); p_itr++) {
-            screen_.updateOne(buffer, p_itr->getLocation(), "white", ' ');
-            p_itr->move();
-            location loc = p_itr->getLocation();
-            if (loc.second >= 0 && loc.second < screen_.height + 1) {
-                screen_.updateOne(buffer, p_itr->getLocation(), "white", '*');
-            }
-            else {
-                p_itr = projectiles_.erase(p_itr)--;
-            }
+          screen_.updateOne(buffer, p_itr->getLocation(), "white", ' ');
+          p_itr->move();
+          location loc = p_itr->getLocation();
+          bool hit = false;
+          for (list<Enemy>::iterator e_itr = enemies_.begin(); e_itr != enemies_.end(); e_itr++) {
+              location e_loc = e_itr->getLocation();
+              if(loc.first == e_loc.first && loc.second == e_loc.second){
+                  hit = true;
+                  screen_.updateOne(buffer,loc, "white", ' ');
+                  e_itr = enemies_.erase(e_itr)--;
+              }
+          }
+          if (loc.second >= 0 && loc.second < screen_.height + 1 && !hit) {
+              screen_.updateOne(buffer, p_itr->getLocation(), "white", '*');
+          }
+          else {
+              p_itr = projectiles_.erase(p_itr)--;
+          }
         }
 
         if(enemies_.empty()) {
