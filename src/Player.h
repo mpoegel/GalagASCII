@@ -8,20 +8,22 @@
 
 using namespace std;
 
-class Player{
+class Player {
   public:
-     Player(const string &input, const pair<int,int> startLoc);
-     Player(): name(""), location(make_pair(0,0)) {}
-     
-     string getName() const;
-     pair<int,int> getLocation() const;
-     bool pendingMove() const;
+    const static int TICKS_PER_SHOT = 4;
+    Player(const string &input, const pair<int,int> startLoc);
+    Player(): name(""), location(make_pair(0,0)) {}
 
-     char takeMove();
-     void runPlayer();
-     void setLocation(pair<int,int> &loc);
-     void endPlayer();
+    string getName() const;
+    pair<int,int> getLocation() const;
+    bool pendingMove() const;
 
+    char takeMove();
+    void runPlayer();
+    void setLocation(pair<int,int> &loc);
+    void endPlayer();
+
+    int cooldown;
   private:
     string name;
     pair<int,int> location;

@@ -10,6 +10,7 @@ Player::Player(const string &input, const pair<int,int> startLoc) {
     location = startLoc;
     madeMove = false;
     end = false;
+    cooldown = 0;
 }
 
 string Player::getName() const {

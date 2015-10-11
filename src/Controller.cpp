@@ -86,12 +86,18 @@ void Controller::run() {
                 screen_.updateOne(buffer, e_location, "red", e_itr->getType());
             }
         }
+        if(player_.cooldown > 0) {
+            player_.cooldown--;
+        }
         if (player_.pendingMove()) {
             location loc = player_.getLocation();
             char move = player_.takeMove();
             if (move == 'w') {
                 loc.second--;
-                projectiles_.push_back( Projectile(false, loc) );
+                if(player_.cooldown == 0) {
+                    projectiles_.push_back( Projectile(false, loc) );
+                    player_.cooldown = Player::TICKS_PER_SHOT;
+                }
             }
             else {
                 screen_.updateOne(buffer, loc, "green", ' ');
@@ -105,26 +111,6 @@ void Controller::run() {
 
     }
     player_.endPlayer();
-}
-
-void Controller::watchPlayer(Controller& c) {
-    while (true) {
-        if (c.player_.pendingMove()) {
-            location loc = c.player_.getLocation();
-            char move = c.player_.takeMove();
-            if (move == 'w') {
-                loc.second--;
-                c.projectiles_.push_back( Projectile(true, c.player_.getLocation()) );
-            }
-            else {
-                string buffer;
-                c.screen_.updateOne(buffer, loc, "green", ' ');
-                c.screen_.updateOne(buffer, c.player_.getLocation(), "green", '^');
-                cout << buffer;
-                cout.flush();
-            }
-        }
-      }
 }
 
 void Controller::runPlayer(Controller& c) {
